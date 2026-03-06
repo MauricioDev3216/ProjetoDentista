@@ -562,3 +562,176 @@ address { font-style:normal; }
   .contato-form-wrap { padding:24px 16px; }
 }
 
+/* =============================================
+   WHATSAPP FLUTUANTE
+   ============================================= */
+.whatsapp-float {
+  position: fixed;
+  bottom: 32px;
+  left: 28px;
+  z-index: 998;
+  width: 58px;
+  height: 58px;
+  background: #25D366;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 28px rgba(37,211,102,0.45);
+  transition: transform 0.3s cubic-bezier(.22,.68,0,1.4),
+              box-shadow 0.3s;
+  animation: wppPop 0.6s cubic-bezier(.22,.68,0,1.4) 1.5s both;
+}
+@keyframes wppPop {
+  from { opacity:0; transform: scale(0) rotate(-180deg); }
+  to   { opacity:1; transform: scale(1) rotate(0deg); }
+}
+.whatsapp-float:hover {
+  transform: scale(1.12) rotate(8deg);
+  box-shadow: 0 10px 40px rgba(37,211,102,0.6);
+}
+
+/* Tooltip */
+.whatsapp-tooltip {
+  position: absolute;
+  left: 68px;
+  background: #1a1a1a;
+  color: #fff;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+  padding: 6px 12px;
+  border-radius: 8px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.25s, transform 0.25s;
+}
+.whatsapp-tooltip::before {
+  content: '';
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+  border-right-color: #1a1a1a;
+}
+.whatsapp-float:hover .whatsapp-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Pulso animado em volta do botão */
+.whatsapp-float::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #25D366;
+  animation: wppPulse 2.5s ease-out infinite;
+  z-index: -1;
+}
+@keyframes wppPulse {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+/* =============================================
+   BOTÃO VOLTAR AO TOPO
+   ============================================= */
+.back-to-top {
+  position: fixed;
+  bottom: 32px;
+  right: 28px;
+  z-index: 998;
+  width: 48px;
+  height: 48px;
+  background: var(--blue-dark);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 24px rgba(58,134,168,0.4);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(16px);
+  transition: opacity 0.35s, transform 0.35s cubic-bezier(.22,.68,0,1.4),
+              background 0.3s, box-shadow 0.3s;
+}
+.back-to-top.visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+.back-to-top:hover {
+  background: var(--blue-deep);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 32px rgba(58,134,168,0.55);
+}
+/* Progresso circular ao redor do botão */
+.back-to-top svg.progress-ring {
+  position: absolute;
+  top: -4px; left: -4px;
+  width: 56px; height: 56px;
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+.progress-ring circle {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 2.5;
+  stroke-dasharray: 163;
+  stroke-dashoffset: 163;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+/* =============================================
+   MÁSCARA DE TELEFONE — estilo do campo
+   ============================================= */
+input#telefone.filled {
+  border-color: var(--green-dark);
+  background: rgba(144,190,109,0.06);
+}
+/* =============================================
+   BOTÃO PWA NA NAVBAR
+   ============================================= */
+.pwa-install-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 18px;
+  background: linear-gradient(135deg, var(--green), var(--green-dark));
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.83rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  box-shadow: 0 4px 14px rgba(90,143,58,0.35);
+  transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
+  animation: pwaBtnPop 0.5s cubic-bezier(.22,.68,0,1.4) both;
+  white-space: nowrap;
+}
+.pwa-install-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(90,143,58,0.5);
+}
+.pwa-install-btn:active {
+  transform: scale(0.96);
+}
+@keyframes pwaBtnPop {
+  from { opacity:0; transform: scale(0.7) translateY(-10px); }
+  to   { opacity:1; transform: scale(1)   translateY(0); }
+}
+
+/* Esconde o texto em mobile, deixa só o ícone */
+@media (max-width: 600px) {
+  .pwa-install-btn span { display: none; }
+  .pwa-install-btn { padding: 8px 10px; }
+}

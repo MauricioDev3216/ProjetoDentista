@@ -8,6 +8,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles/style.css" />
+  <!-- PWA -->
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#3a86a8" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d1b26" media="(prefers-color-scheme: dark)" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Sorriso Perfeito" />
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+<meta name="description" content="Consultório odontológico com tecnologia de ponta, clareamento, implantes, ortodontia e muito mais." />
 </head>
 <body>
 
@@ -23,6 +33,20 @@
         <span class="logo-text">Sorriso <strong>Perfeito</strong></span>
       </a>
       <div class="nav-right">
+        <!-- Botão PWA instalar -->
+  <button class="pwa-install-btn" id="pwaInstallBtn" style="display:none" aria-label="Instalar app">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    <span>Instalar App</span>
+  </button>
+
+  <!-- Toggle tema (já existia) -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+    ...
+  </button>
         <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
           <svg class="icon-sun" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="5"/>

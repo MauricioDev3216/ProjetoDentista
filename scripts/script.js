@@ -1,20 +1,11 @@
 /* =============================================
    SORRISO PERFEITO — script.js
-   1. Dark/Light Mode
-   2. Scroll Reveal com direções
-   3. Contador animado de estatísticas
-   4. Header scroll
-   5. Menu mobile
-   6. Smooth scroll
-   7. API ViaCEP
-   8. API OpenWeatherMap
-   9. Validação do formulário
    ============================================= */
 
 // ============================================
 // ⚙️ CONFIGURAÇÃO
 // ============================================
-const OPENWEATHER_KEY = 'SUA_CHAVE_AQUI';
+const OPENWEATHER_KEY = '';
 const WEATHER_CITY    = 'São Paulo';
 
 // ============================================
@@ -37,7 +28,7 @@ themeToggle.addEventListener('click', () => {
 });
 
 // ============================================
-// 2. SCROLL REVEAL com IntersectionObserver
+// 2. SCROLL REVEAL
 // ============================================
 const revealSelectors = [
   '.reveal-up', '.reveal-left', '.reveal-right',
@@ -53,8 +44,7 @@ const revealObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-// Adiciona delay progressivo em grupos de cards
-document.querySelectorAll(revealSelectors.join(',')).forEach((el, i) => {
+document.querySelectorAll(revealSelectors.join(',')).forEach((el) => {
   const parent = el.parentElement;
   const siblings = [...parent.children].filter(c =>
     revealSelectors.some(s => c.matches(s))
@@ -72,12 +62,10 @@ document.querySelectorAll(revealSelectors.join(',')).forEach((el, i) => {
 function animateCounter(el) {
   const target   = parseInt(el.dataset.target, 10);
   const suffix   = el.dataset.suffix || '';
-  const duration = 2000; // ms
+  const duration = 2000;
   const steps    = 60;
   const stepTime = duration / steps;
-  let current    = 0;
 
-  // Easing — acelera no início, desacelera no fim
   function easeOutExpo(t) {
     return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
   }
@@ -86,9 +74,7 @@ function animateCounter(el) {
   const timer = setInterval(() => {
     step++;
     const progress = easeOutExpo(step / steps);
-    current = Math.round(progress * target);
-    el.textContent = current.toLocaleString('pt-BR') + suffix;
-
+    el.textContent = Math.round(progress * target).toLocaleString('pt-BR') + suffix;
     if (step >= steps) {
       el.textContent = target.toLocaleString('pt-BR') + suffix;
       clearInterval(timer);
@@ -96,18 +82,13 @@ function animateCounter(el) {
   }, stepTime);
 }
 
-// Observador específico para os stat cards
 const statsObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (!entry.isIntersecting) return;
-
     const card = entry.target;
-    card.classList.add('revealed'); // anima a entrada do card
-
-    // Dispara o contador
+    card.classList.add('revealed');
     const numberEl = card.querySelector('.stat-number');
     if (numberEl) animateCounter(numberEl);
-
     statsObserver.unobserve(card);
   });
 }, { threshold: 0.3 });
@@ -151,7 +132,7 @@ document.addEventListener('click', (e) => {
 });
 
 // ============================================
-// 6. SMOOTH SCROLL com offset do header
+// 6. SMOOTH SCROLL
 // ============================================
 document.querySelectorAll('a[href^="#"]').forEach((a) => {
   a.addEventListener('click', (e) => {
@@ -169,11 +150,11 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
 });
 
 // ============================================
-// 7. API ViaCEP — preenchimento por CEP
+// 7. API ViaCEP
 // ============================================
-const cepInput  = document.getElementById('cep');
-const cepStatus = document.getElementById('cepStatus');
-const cepError  = document.getElementById('cepError');
+const cepInput   = document.getElementById('cep');
+const cepStatus  = document.getElementById('cepStatus');
+const cepError   = document.getElementById('cepError');
 const addrFields = {
   logradouro: document.getElementById('logradouro'),
   bairro:     document.getElementById('bairro'),
@@ -187,8 +168,8 @@ function formatCEP(v) {
 function clearAddr() {
   Object.values(addrFields).forEach(f => {
     f.value = '';
-    f.style.background   = '';
-    f.style.borderColor  = '';
+    f.style.background  = '';
+    f.style.borderColor = '';
   });
 }
 
@@ -224,7 +205,11 @@ async function fetchCEP(cep) {
 cepInput.addEventListener('input', (e) => {
   e.target.value = formatCEP(e.target.value);
   const raw = e.target.value.replace(/\D/g,'');
-  if (raw.length < 8) { cepStatus.className = 'cep-status'; cepError.classList.remove('show'); clearAddr(); }
+  if (raw.length < 8) {
+    cepStatus.className = 'cep-status';
+    cepError.classList.remove('show');
+    clearAddr();
+  }
   if (raw.length === 8) fetchCEP(e.target.value);
 });
 cepInput.addEventListener('blur', (e) => {
@@ -232,7 +217,7 @@ cepInput.addEventListener('blur', (e) => {
 });
 
 // ============================================
-// 8. API OpenWeatherMap — previsão do tempo
+// 8. API OpenWeatherMap
 // ============================================
 function getWeatherIcon(id) {
   if (id >= 200 && id < 300) return '⛈️';
@@ -258,10 +243,10 @@ async function fetchWeather() {
     return;
   }
   try {
-    const url  = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(WEATHER_CITY)}&appid=${OPENWEATHER_KEY}&lang=pt_br&units=metric`;
-    const res  = await fetch(url);
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(WEATHER_CITY)}&appid=${OPENWEATHER_KEY}&lang=pt_br&units=metric`;
+    const res = await fetch(url);
     if (!res.ok) throw new Error();
-    const d    = await res.json();
+    const d   = await res.json();
     document.getElementById('weatherCity').textContent     = d.name;
     document.getElementById('weatherTemp').textContent     = `${Math.round(d.main.temp)}°C`;
     document.getElementById('weatherDesc').textContent     = d.weather[0].description;
@@ -281,8 +266,8 @@ setInterval(fetchWeather, 10 * 60 * 1000);
 // ============================================
 // 9. VALIDAÇÃO DO FORMULÁRIO
 // ============================================
-const form        = document.getElementById('contatoForm');
-const formSuccess = document.getElementById('formSuccess');
+const form          = document.getElementById('contatoForm');
+const formSuccess   = document.getElementById('formSuccess');
 const nomeInput     = document.getElementById('nome');
 const emailInput    = document.getElementById('email');
 const mensagemInput = document.getElementById('mensagem');
@@ -326,3 +311,52 @@ form.addEventListener('submit', (e) => {
     setTimeout(() => { formSuccess.style.display = 'none'; }, 7000);
   }, 1000);
 });
+
+
+// ============================================
+// PWA — Botão na Navbar
+// ============================================
+let installPrompt = null;
+const pwaInstallBtn = document.getElementById('pwaInstallBtn');
+
+// Captura o evento de instalação
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  installPrompt = e;
+
+  // Mostra o botão na navbar
+  if (pwaInstallBtn) {
+    pwaInstallBtn.style.display = 'flex';
+  }
+});
+
+// Clique no botão — abre o prompt nativo do browser
+if (pwaInstallBtn) {
+  pwaInstallBtn.addEventListener('click', async () => {
+    if (!installPrompt) return;
+
+    // Abre o prompt de instalação
+    installPrompt.prompt();
+    const { outcome } = await installPrompt.userChoice;
+
+    console.log('[PWA] Resultado:', outcome);
+
+    if (outcome === 'accepted') {
+      // Esconde o botão após instalar
+      pwaInstallBtn.style.display = 'none';
+      installPrompt = null;
+    }
+  });
+}
+
+// Esconde o botão quando o app já está instalado
+window.addEventListener('appinstalled', () => {
+  if (pwaInstallBtn) pwaInstallBtn.style.display = 'none';
+  installPrompt = null;
+  console.log('[PWA] App instalado!');
+});
+
+// Não mostra o botão se já estiver rodando como PWA instalado
+if (window.matchMedia('(display-mode: standalone)').matches) {
+  if (pwaInstallBtn) pwaInstallBtn.style.display = 'none';
+}
