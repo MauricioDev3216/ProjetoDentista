@@ -161,6 +161,7 @@ const OPENWEATHER_KEY = 'SUA_CHAVE_AQUI';
 
 ## ✅ Checklist final do projeto
 ```
+```
 ✅ HTML semântico e acessível
 ✅ CSS modular com variáveis
 ✅ Dark / Light Mode + localStorage
