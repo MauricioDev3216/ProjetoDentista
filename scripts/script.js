@@ -5,7 +5,7 @@
 // ============================================
 // ⚙️ CONFIGURAÇÃO
 // ============================================
-const OPENWEATHER_KEY = '';
+const OPENWEATHER_KEY = 'YOUR_API_KEY_HERE';
 const WEATHER_CITY    = 'São Paulo';
 
 // ============================================
@@ -50,21 +50,18 @@ document.querySelectorAll(revealSelectors.join(',')).forEach((el) => {
     revealSelectors.some(s => c.matches(s))
   );
   const indexInGroup = siblings.indexOf(el);
-  if (indexInGroup > 0) {
-    el.style.transitionDelay = `${indexInGroup * 0.12}s`;
-  }
+  if (indexInGroup > 0) el.style.transitionDelay = `${indexInGroup * 0.12}s`;
   revealObserver.observe(el);
 });
 
 // ============================================
-// 3. CONTADOR ANIMADO DE ESTATÍSTICAS
+// 3. CONTADOR ANIMADO
 // ============================================
 function animateCounter(el) {
   const target   = parseInt(el.dataset.target, 10);
   const suffix   = el.dataset.suffix || '';
-  const duration = 2000;
   const steps    = 60;
-  const stepTime = duration / steps;
+  const stepTime = 2000 / steps;
 
   function easeOutExpo(t) {
     return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
@@ -73,8 +70,7 @@ function animateCounter(el) {
   let step = 0;
   const timer = setInterval(() => {
     step++;
-    const progress = easeOutExpo(step / steps);
-    el.textContent = Math.round(progress * target).toLocaleString('pt-BR') + suffix;
+    el.textContent = Math.round(easeOutExpo(step / steps) * target).toLocaleString('pt-BR') + suffix;
     if (step >= steps) {
       el.textContent = target.toLocaleString('pt-BR') + suffix;
       clearInterval(timer);
@@ -85,11 +81,10 @@ function animateCounter(el) {
 const statsObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (!entry.isIntersecting) return;
-    const card = entry.target;
-    card.classList.add('revealed');
-    const numberEl = card.querySelector('.stat-number');
+    entry.target.classList.add('revealed');
+    const numberEl = entry.target.querySelector('.stat-number');
     if (numberEl) animateCounter(numberEl);
-    statsObserver.unobserve(card);
+    statsObserver.unobserve(entry.target);
   });
 }, { threshold: 0.3 });
 
@@ -99,7 +94,7 @@ document.querySelectorAll('.stat-card').forEach((card, i) => {
 });
 
 // ============================================
-// 4. HEADER — sombra ao rolar
+// 4. HEADER SCROLL
 // ============================================
 const header = document.getElementById('header');
 window.addEventListener('scroll', () => {
@@ -244,9 +239,17 @@ async function fetchWeather() {
   }
   try {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(WEATHER_CITY)}&appid=${OPENWEATHER_KEY}&lang=pt_br&units=metric`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error();
-    const d   = await res.json();
+
+    let res = await fetch(url);
+
+    // Se falhar, tenta via proxy CORS (para GitHub Pages)
+    if (!res.ok) {
+      res = await fetch(`https://corsproxy.io/?${encodeURIComponent(url)}`);
+    }
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const d = await res.json();
     document.getElementById('weatherCity').textContent     = d.name;
     document.getElementById('weatherTemp').textContent     = `${Math.round(d.main.temp)}°C`;
     document.getElementById('weatherDesc').textContent     = d.weather[0].description;
@@ -255,7 +258,8 @@ async function fetchWeather() {
     document.getElementById('weatherIcon').textContent     = getWeatherIcon(d.weather[0].id);
     loadEl.style.display    = 'none';
     contentEl.style.display = 'block';
-  } catch {
+  } catch (err) {
+    console.error('[Weather]', err);
     loadEl.style.display  = 'none';
     errorEl.style.display = 'block';
   }
@@ -312,51 +316,112 @@ form.addEventListener('submit', (e) => {
   }, 1000);
 });
 
+// ============================================
+// 10. MÁSCARA DE TELEFONE
+// ============================================
+const telefoneInput = document.getElementById('telefone');
+
+if (telefoneInput) {
+  telefoneInput.addEventListener('input', (e) => {
+    let v = e.target.value.replace(/\D/g,'').slice(0,11);
+    if (v.length <= 10) {
+      v = v.replace(/^(\d{2})(\d)/,'($1) $2').replace(/(\d{4})(\d)/,'$1-$2');
+    } else {
+      v = v.replace(/^(\d{2})(\d)/,'($1) $2').replace(/(\d{1})(\d{4})(\d)/,'$1 $2-$3');
+    }
+    e.target.value = v;
+    e.target.classList.toggle('filled', v.length > 0);
+  });
+}
 
 // ============================================
-// PWA — Botão na Navbar
+// 11. VOLTAR AO TOPO
 // ============================================
-let installPrompt = null;
-const pwaInstallBtn = document.getElementById('pwaInstallBtn');
+const backToTop = document.getElementById('backToTop');
 
-// Captura o evento de instalação
+if (backToTop) {
+  backToTop.insertAdjacentHTML('beforeend', `
+    <svg class="progress-ring" viewBox="0 0 56 56">
+      <circle cx="28" cy="28" r="26"/>
+    </svg>
+  `);
+
+  const progressCircle = backToTop.querySelector('.progress-ring circle');
+  const circumference  = 2 * Math.PI * 26;
+  progressCircle.style.strokeDasharray  = circumference;
+  progressCircle.style.strokeDashoffset = circumference;
+
+  window.addEventListener('scroll', () => {
+    const scrollTop     = window.scrollY;
+    const docHeight     = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercent = scrollTop / docHeight;
+    backToTop.classList.toggle('visible', scrollTop > 400);
+    progressCircle.style.strokeDashoffset = circumference - scrollPercent * circumference;
+  }, { passive: true });
+
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+// ============================================
+// 12. WHATSAPP — esconde em landscape mobile
+// ============================================
+const wppFloat = document.querySelector('.whatsapp-float');
+
+function checkWppVisibility() {
+  if (!wppFloat) return;
+  wppFloat.style.display =
+    (window.innerWidth < 600 && window.innerHeight < 450) ? 'none' : '';
+}
+window.addEventListener('resize', checkWppVisibility, { passive: true });
+checkWppVisibility();
+
+// ============================================
+// 13. PWA — Service Worker
+// ============================================
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      const reg = await navigator.serviceWorker.register('/sw.js');
+      console.log('[PWA] SW registrado:', reg.scope);
+    } catch (err) {
+      console.warn('[PWA] SW falhou:', err);
+    }
+  });
+}
+
+// ============================================
+// 14. PWA — Botão instalar na navbar
+// ============================================
+let installPrompt    = null;
+const pwaInstallBtn  = document.getElementById('pwaInstallBtn');
+
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   installPrompt = e;
-
-  // Mostra o botão na navbar
-  if (pwaInstallBtn) {
-    pwaInstallBtn.style.display = 'flex';
-  }
+  if (pwaInstallBtn) pwaInstallBtn.style.display = 'flex';
 });
 
-// Clique no botão — abre o prompt nativo do browser
 if (pwaInstallBtn) {
   pwaInstallBtn.addEventListener('click', async () => {
     if (!installPrompt) return;
-
-    // Abre o prompt de instalação
     installPrompt.prompt();
     const { outcome } = await installPrompt.userChoice;
-
     console.log('[PWA] Resultado:', outcome);
-
     if (outcome === 'accepted') {
-      // Esconde o botão após instalar
       pwaInstallBtn.style.display = 'none';
       installPrompt = null;
     }
   });
 }
 
-// Esconde o botão quando o app já está instalado
 window.addEventListener('appinstalled', () => {
   if (pwaInstallBtn) pwaInstallBtn.style.display = 'none';
   installPrompt = null;
-  console.log('[PWA] App instalado!');
 });
 
-// Não mostra o botão se já estiver rodando como PWA instalado
+// Esconde se já está rodando como app instalado
 if (window.matchMedia('(display-mode: standalone)').matches) {
   if (pwaInstallBtn) pwaInstallBtn.style.display = 'none';
 }

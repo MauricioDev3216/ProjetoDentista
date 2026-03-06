@@ -4,24 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sorriso Perfeito | Consultório Odontológico</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#3a86a8" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0d1b26" media="(prefers-color-scheme: dark)" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Sorriso Perfeito" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+  <meta name="description" content="Consultório odontológico com tecnologia de ponta, clareamento, implantes, ortodontia e muito mais." />
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles/style.css" />
-  <!-- PWA -->
-<link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#3a86a8" media="(prefers-color-scheme: light)" />
-<meta name="theme-color" content="#0d1b26" media="(prefers-color-scheme: dark)" />
-<meta name="mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="Sorriso Perfeito" />
-<link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
-<meta name="description" content="Consultório odontológico com tecnologia de ponta, clareamento, implantes, ortodontia e muito mais." />
 </head>
 <body>
 
-  <!-- ===== HEADER NOVO ===== -->
+  <!-- ===== HEADER ===== -->
   <header id="header">
     <nav class="navbar">
       <a href="#home" class="logo">
@@ -32,21 +35,19 @@
         </svg>
         <span class="logo-text">Sorriso <strong>Perfeito</strong></span>
       </a>
-      <div class="nav-right">
-        <!-- Botão PWA instalar -->
-  <button class="pwa-install-btn" id="pwaInstallBtn" style="display:none" aria-label="Instalar app">
-    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-      <polyline points="7 10 12 15 17 10"/>
-      <line x1="12" y1="15" x2="12" y2="3"/>
-    </svg>
-    <span>Instalar App</span>
-  </button>
 
-  <!-- Toggle tema (já existia) -->
-  <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
-    ...
-  </button>
+      <div class="nav-right">
+        <!-- Botão PWA -->
+        <button class="pwa-install-btn" id="pwaInstallBtn" style="display:none" aria-label="Instalar app">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <span>Instalar App</span>
+        </button>
+
+        <!-- Dark/Light toggle -->
         <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
           <svg class="icon-sun" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="5"/>
@@ -59,9 +60,11 @@
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
           </svg>
         </button>
+
         <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
           <span></span><span></span><span></span>
         </button>
+
         <ul class="nav-links" id="navLinks">
           <li><a href="#home">Início</a></li>
           <li><a href="#stats">Números</a></li>
@@ -115,7 +118,10 @@
       </div>
       <div class="weather-content" id="weatherContent" style="display:none">
         <div class="weather-header">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
           <span id="weatherCity">São Paulo</span>
         </div>
         <div class="weather-main">
@@ -129,50 +135,44 @@
         </div>
       </div>
       <div class="weather-error" id="weatherError" style="display:none">
-        ⚠️ Configure a chave OpenWeatherMap em script.js
+        ⚠️ Clima indisponível no momento
       </div>
     </div>
   </section>
 
-  <!-- ===== CONTADOR DE ESTATÍSTICAS ===== -->
+  <!-- ===== STATS ===== -->
   <section id="stats" class="stats">
     <div class="container stats-grid">
-
-      <div class="stat-card reveal-left">
+      <div class="stat-card reveal-up">
         <div class="stat-icon">🦷</div>
         <span class="stat-number" data-target="500" data-suffix="+">0</span>
         <span class="stat-label">Pacientes Atendidos</span>
         <div class="stat-bar"><div class="stat-bar-fill" style="--w:85%"></div></div>
       </div>
-
       <div class="stat-card reveal-up">
         <div class="stat-icon">⭐</div>
         <span class="stat-number" data-target="15" data-suffix=" anos">0</span>
         <span class="stat-label">Anos de Experiência</span>
         <div class="stat-bar"><div class="stat-bar-fill" style="--w:75%"></div></div>
       </div>
-
-      <div class="stat-card reveal-up delay-1">
+      <div class="stat-card reveal-up">
         <div class="stat-icon">😊</div>
         <span class="stat-number" data-target="98" data-suffix="%">0</span>
         <span class="stat-label">Satisfação dos Pacientes</span>
         <div class="stat-bar"><div class="stat-bar-fill" style="--w:98%"></div></div>
       </div>
-
-      <div class="stat-card reveal-up delay-2">
+      <div class="stat-card reveal-up">
         <div class="stat-icon">🏆</div>
         <span class="stat-number" data-target="12" data-suffix="">0</span>
         <span class="stat-label">Prêmios Recebidos</span>
         <div class="stat-bar"><div class="stat-bar-fill" style="--w:60%"></div></div>
       </div>
-
-      <div class="stat-card reveal-right">
+      <div class="stat-card reveal-up">
         <div class="stat-icon">💉</div>
         <span class="stat-number" data-target="3200" data-suffix="+">0</span>
         <span class="stat-label">Procedimentos Realizados</span>
         <div class="stat-bar"><div class="stat-bar-fill" style="--w:92%"></div></div>
       </div>
-
     </div>
   </section>
 
@@ -185,49 +185,42 @@
         <p>Tratamentos completos para cuidar do seu sorriso com excelência</p>
       </div>
       <div class="servicos-grid">
-
         <article class="servico-card card-from-left">
           <div class="servico-icon"><svg viewBox="0 0 48 48" width="40" height="40"><circle cx="24" cy="24" r="20" fill="#A9D6E5" opacity=".3"/><path d="M12 22C12 16 16 12 20 14C21.5 10 26.5 10 28 14C32 12 36 16 36 22C36 30 30 36 24 38C18 36 12 30 12 22Z" fill="#A9D6E5" stroke="#3a86a8" stroke-width="1.5"/></svg></div>
           <h3>Clareamento Dental</h3>
-          <p>Recupere o brilho natural do seu sorriso com nosso tratamento seguro e eficaz.</p>
+          <p>Recupere o brilho natural do seu sorriso com tratamento seguro e eficaz.</p>
           <span class="card-tag">Estético</span>
         </article>
-
         <article class="servico-card card-from-bottom">
           <div class="servico-icon"><svg viewBox="0 0 48 48" width="40" height="40"><circle cx="24" cy="24" r="20" fill="#90BE6D" opacity=".3"/><rect x="16" y="14" width="16" height="20" rx="8" fill="#90BE6D" stroke="#5a8f3a" stroke-width="1.5"/><line x1="24" y1="22" x2="24" y2="30" stroke="#5a8f3a" stroke-width="1.5"/><line x1="20" y1="26" x2="28" y2="26" stroke="#5a8f3a" stroke-width="1.5"/></svg></div>
           <h3>Implantes Dentários</h3>
           <p>Solução permanente e natural para dentes perdidos, devolvendo função e estética.</p>
           <span class="card-tag">Cirúrgico</span>
         </article>
-
         <article class="servico-card card-from-right">
           <div class="servico-icon"><svg viewBox="0 0 48 48" width="40" height="40"><circle cx="24" cy="24" r="20" fill="#A9D6E5" opacity=".3"/><path d="M15 32Q24 38 33 32" fill="none" stroke="#3a86a8" stroke-width="2.5" stroke-linecap="round"/><circle cx="18" cy="22" r="4" fill="#A9D6E5"/><circle cx="30" cy="22" r="4" fill="#A9D6E5"/></svg></div>
           <h3>Ortodontia</h3>
           <p>Aparelhos fixos, removíveis e alinhadores invisíveis para todas as idades.</p>
           <span class="card-tag">Corretivo</span>
         </article>
-
         <article class="servico-card card-from-left">
           <div class="servico-icon"><svg viewBox="0 0 48 48" width="40" height="40"><circle cx="24" cy="24" r="20" fill="#90BE6D" opacity=".3"/><path d="M17 18L24 12L31 18L31 34L17 34Z" fill="#90BE6D" stroke="#5a8f3a" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
           <h3>Facetas de Porcelana</h3>
           <p>Lâminas ultrafinas que transformam cor, forma e alinhamento dos dentes.</p>
           <span class="card-tag">Estético</span>
         </article>
-
         <article class="servico-card card-from-bottom">
           <div class="servico-icon"><svg viewBox="0 0 48 48" width="40" height="40"><circle cx="24" cy="24" r="20" fill="#A9D6E5" opacity=".3"/><path d="M16 28C16 22 20 18 24 18C28 18 32 22 32 28" fill="none" stroke="#3a86a8" stroke-width="2"/><line x1="24" y1="18" x2="24" y2="14" stroke="#3a86a8" stroke-width="2"/><circle cx="24" cy="13" r="2" fill="#A9D6E5"/></svg></div>
           <h3>Tratamento de Canal</h3>
           <p>Procedimento indolor para salvar dentes comprometidos definitivamente.</p>
           <span class="card-tag">Restaurador</span>
         </article>
-
         <article class="servico-card card-from-right">
           <div class="servico-icon"><svg viewBox="0 0 48 48" width="40" height="40"><circle cx="24" cy="24" r="20" fill="#90BE6D" opacity=".3"/><circle cx="18" cy="20" r="5" fill="#90BE6D" stroke="#5a8f3a" stroke-width="1.5"/><circle cx="30" cy="20" r="5" fill="#90BE6D" stroke="#5a8f3a" stroke-width="1.5"/><path d="M14 32Q24 38 34 32" fill="none" stroke="#5a8f3a" stroke-width="2" stroke-linecap="round"/></svg></div>
           <h3>Odontopediatria</h3>
           <p>Ambiente acolhedor para os pequenos, formando hábitos saudáveis desde cedo.</p>
           <span class="card-tag">Infantil</span>
         </article>
-
       </div>
     </div>
   </section>
@@ -242,19 +235,34 @@
       </div>
       <div class="galeria-grid">
         <figure class="galeria-item grande card-from-left">
-          <div class="galeria-placeholder gal-blue-deep"><svg viewBox="0 0 100 100" width="70" height="70"><circle cx="50" cy="36" r="20" fill="rgba(255,255,255,0.55)"/><path d="M15 88C15 66 28 56 50 56C72 56 85 66 85 88Z" fill="rgba(255,255,255,0.55)"/></svg><div class="gal-info"><span>Ana Paula, 32</span><small>Clareamento + Facetas</small></div></div>
+          <div class="galeria-placeholder gal-blue-deep">
+            <svg viewBox="0 0 100 100" width="70" height="70"><circle cx="50" cy="36" r="20" fill="rgba(255,255,255,0.55)"/><path d="M15 88C15 66 28 56 50 56C72 56 85 66 85 88Z" fill="rgba(255,255,255,0.55)"/></svg>
+            <div class="gal-info"><span>Ana Paula, 32</span><small>Clareamento + Facetas</small></div>
+          </div>
         </figure>
         <figure class="galeria-item card-from-top">
-          <div class="galeria-placeholder gal-green"><svg viewBox="0 0 100 100" width="55" height="55"><circle cx="50" cy="36" r="20" fill="rgba(255,255,255,0.55)"/><path d="M15 88C15 66 28 56 50 56C72 56 85 66 85 88Z" fill="rgba(255,255,255,0.55)"/></svg><div class="gal-info"><span>Carlos, 45</span><small>Implantes</small></div></div>
+          <div class="galeria-placeholder gal-green">
+            <svg viewBox="0 0 100 100" width="55" height="55"><circle cx="50" cy="36" r="20" fill="rgba(255,255,255,0.55)"/><path d="M15 88C15 66 28 56 50 56C72 56 85 66 85 88Z" fill="rgba(255,255,255,0.55)"/></svg>
+            <div class="gal-info"><span>Carlos, 45</span><small>Implantes</small></div>
+          </div>
         </figure>
         <figure class="galeria-item card-from-right">
-          <div class="galeria-placeholder gal-blue-light"><svg viewBox="0 0 100 100" width="55" height="55"><circle cx="50" cy="36" r="20" fill="rgba(255,255,255,0.55)"/><path d="M15 88C15 66 28 56 50 56C72 56 85 66 85 88Z" fill="rgba(255,255,255,0.55)"/></svg><div class="gal-info"><span>Mariana, 28</span><small>Ortodontia</small></div></div>
+          <div class="galeria-placeholder gal-blue-light">
+            <svg viewBox="0 0 100 100" width="55" height="55"><circle cx="50" cy="36" r="20" fill="rgba(255,255,255,0.55)"/><path d="M15 88C15 66 28 56 50 56C72 56 85 66 85 88Z" fill="rgba(255,255,255,0.55)"/></svg>
+            <div class="gal-info"><span>Mariana, 28</span><small>Ortodontia</small></div>
+          </div>
         </figure>
         <figure class="galeria-item card-from-bottom">
-          <div class="galeria-placeholder gal-yellow"><svg viewBox="0 0 100 100" width="55" height="55"><circle cx="50" cy="36" r="20" fill="rgba(255,255,255,0.55)"/><path d="M15 88C15 66 28 56 50 56C72 56 85 66 85 88Z" fill="rgba(255,255,255,0.55)"/></svg><div class="gal-info"><span>Pedro, 17</span><small>Aparelho Fixo</small></div></div>
+          <div class="galeria-placeholder gal-yellow">
+            <svg viewBox="0 0 100 100" width="55" height="55"><circle cx="50" cy="36" r="20" fill="rgba(255,255,255,0.55)"/><path d="M15 88C15 66 28 56 50 56C72 56 85 66 85 88Z" fill="rgba(255,255,255,0.55)"/></svg>
+            <div class="gal-info"><span>Pedro, 17</span><small>Aparelho Fixo</small></div>
+          </div>
         </figure>
         <figure class="galeria-item card-from-right">
-          <div class="galeria-placeholder gal-teal"><svg viewBox="0 0 100 100" width="55" height="55"><circle cx="50" cy="36" r="20" fill="rgba(255,255,255,0.55)"/><path d="M15 88C15 66 28 56 50 56C72 56 85 66 85 88Z" fill="rgba(255,255,255,0.55)"/></svg><div class="gal-info"><span>Fernanda, 39</span><small>Facetas</small></div></div>
+          <div class="galeria-placeholder gal-teal">
+            <svg viewBox="0 0 100 100" width="55" height="55"><circle cx="50" cy="36" r="20" fill="rgba(255,255,255,0.55)"/><path d="M15 88C15 66 28 56 50 56C72 56 85 66 85 88Z" fill="rgba(255,255,255,0.55)"/></svg>
+            <div class="gal-info"><span>Fernanda, 39</span><small>Facetas</small></div>
+          </div>
         </figure>
       </div>
     </div>
@@ -271,17 +279,26 @@
         <article class="depoimento-card card-from-left">
           <div class="stars">★★★★★</div>
           <blockquote>"Fui ao Sorriso Perfeito com muita insegurança. Após o tratamento com facetas, não consigo parar de sorrir! A equipe é incrível e o ambiente muito aconchegante."</blockquote>
-          <div class="depoimento-autor"><div class="autor-avatar av-blue">A</div><div><strong>Ana Paula Rodrigues</strong><span>Paciente há 2 anos · Facetas</span></div></div>
+          <div class="depoimento-autor">
+            <div class="autor-avatar av-blue">A</div>
+            <div><strong>Ana Paula Rodrigues</strong><span>Paciente há 2 anos · Facetas</span></div>
+          </div>
         </article>
         <article class="depoimento-card card-from-bottom">
           <div class="stars">★★★★★</div>
           <blockquote>"Perdi um dente em um acidente e o resultado do implante ficou perfeito — parece natural! O atendimento é humanizado do início ao fim."</blockquote>
-          <div class="depoimento-autor"><div class="autor-avatar av-green">C</div><div><strong>Carlos Eduardo Matos</strong><span>Paciente há 1 ano · Implante</span></div></div>
+          <div class="depoimento-autor">
+            <div class="autor-avatar av-green">C</div>
+            <div><strong>Carlos Eduardo Matos</strong><span>Paciente há 1 ano · Implante</span></div>
+          </div>
         </article>
         <article class="depoimento-card card-from-right">
           <div class="stars">★★★★★</div>
           <blockquote>"Trouxe minha filha de 6 anos e ela adorou! Não chorou nada e já quer voltar. O ambiente infantil e a paciência da equipe fez toda a diferença."</blockquote>
-          <div class="depoimento-autor"><div class="autor-avatar av-yellow">M</div><div><strong>Mariana Souza</strong><span>Mãe de paciente · Odontopediatria</span></div></div>
+          <div class="depoimento-autor">
+            <div class="autor-avatar av-yellow">M</div>
+            <div><strong>Mariana Souza</strong><span>Mãe de paciente · Odontopediatria</span></div>
+          </div>
         </article>
       </div>
     </div>
@@ -301,6 +318,7 @@
           <li><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#A9D6E5" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Seg–Sex: 8h–19h | Sáb: 8h–13h</li>
         </ul>
       </div>
+
       <div class="contato-form-wrap reveal-right">
         <form id="contatoForm" class="contato-form" novalidate>
           <h3>Envie uma Mensagem</h3>
@@ -317,6 +335,10 @@
             </div>
           </div>
           <div class="form-row">
+            <div class="form-group">
+              <label for="telefone">Telefone <span class="optional">(opcional)</span></label>
+              <input type="tel" id="telefone" name="telefone" placeholder="(11) 9 0000-0000"/>
+            </div>
             <div class="form-group cep-group">
               <label for="cep">CEP</label>
               <div class="cep-input-wrap">
@@ -325,15 +347,11 @@
               </div>
               <span class="form-error" id="cepError">CEP inválido ou não encontrado.</span>
             </div>
-            <div class="form-group">
-              <label for="bairro">Bairro</label>
-              <input type="text" id="bairro" name="bairro" placeholder="Automático" readonly/>
-            </div>
           </div>
           <div class="form-row">
             <div class="form-group">
               <label for="logradouro">Endereço</label>
-              <input type="text" id="logradouro" name="logradouro" placeholder="Automático" readonly/>
+              <input type="text" id="logradouro" name="logradouro" placeholder="Preenchido automaticamente" readonly/>
             </div>
             <div class="form-group">
               <label for="numero">Número</label>
@@ -342,13 +360,17 @@
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label for="cidade">Cidade</label>
-              <input type="text" id="cidade" name="cidade" placeholder="Automático" readonly/>
+              <label for="bairro">Bairro</label>
+              <input type="text" id="bairro" name="bairro" placeholder="Preenchido automaticamente" readonly/>
             </div>
             <div class="form-group">
-              <label for="estado">UF</label>
-              <input type="text" id="estado" name="estado" placeholder="UF" readonly/>
+              <label for="cidade">Cidade</label>
+              <input type="text" id="cidade" name="cidade" placeholder="Preenchido automaticamente" readonly/>
             </div>
+          </div>
+          <div class="form-group">
+            <label for="estado">Estado</label>
+            <input type="text" id="estado" name="estado" placeholder="UF" readonly/>
           </div>
           <div class="form-group">
             <label for="servico">Serviço de interesse</label>
@@ -379,11 +401,33 @@
   <footer class="footer">
     <div class="container footer-inner">
       <div class="footer-brand">
-        <div class="logo"><svg viewBox="0 0 60 60" width="36" height="36"><circle cx="30" cy="30" r="28" fill="#A9D6E5" stroke="#fff" stroke-width="2" opacity=".7"/><path d="M14 26C14 20 20 16 26 18C28 14 32 14 34 18C40 16 46 20 46 26C46 36 38 44 30 47C22 44 14 36 14 26Z" fill="#fff"/><path d="M22 34Q30 40 38 34" fill="none" stroke="#90BE6D" stroke-width="2.5" stroke-linecap="round"/></svg><span class="logo-text">Sorriso <strong>Perfeito</strong></span></div>
+        <div class="logo">
+          <svg viewBox="0 0 60 60" width="36" height="36"><circle cx="30" cy="30" r="28" fill="#A9D6E5" stroke="#fff" stroke-width="2" opacity=".7"/><path d="M14 26C14 20 20 16 26 18C28 14 32 14 34 18C40 16 46 20 46 26C46 36 38 44 30 47C22 44 14 36 14 26Z" fill="#fff"/><path d="M22 34Q30 40 38 34" fill="none" stroke="#90BE6D" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <span class="logo-text">Sorriso <strong>Perfeito</strong></span>
+        </div>
         <p>Cuidando do seu sorriso com amor e tecnologia desde 2009.</p>
       </div>
-      <div class="footer-links"><h4>Navegação</h4><ul><li><a href="#home">Início</a></li><li><a href="#stats">Números</a></li><li><a href="#servicos">Serviços</a></li><li><a href="#galeria">Galeria</a></li><li><a href="#depoimentos">Depoimentos</a></li><li><a href="#contato">Contato</a></li></ul></div>
-      <div class="footer-links"><h4>Serviços</h4><ul><li><a href="#servicos">Clareamento</a></li><li><a href="#servicos">Implantes</a></li><li><a href="#servicos">Ortodontia</a></li><li><a href="#servicos">Facetas</a></li><li><a href="#servicos">Odontopediatria</a></li></ul></div>
+      <div class="footer-links">
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="#home">Início</a></li>
+          <li><a href="#stats">Números</a></li>
+          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="#galeria">Galeria</a></li>
+          <li><a href="#depoimentos">Depoimentos</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Serviços</h4>
+        <ul>
+          <li><a href="#servicos">Clareamento</a></li>
+          <li><a href="#servicos">Implantes</a></li>
+          <li><a href="#servicos">Ortodontia</a></li>
+          <li><a href="#servicos">Facetas</a></li>
+          <li><a href="#servicos">Odontopediatria</a></li>
+        </ul>
+      </div>
       <div class="footer-social">
         <h4>Redes Sociais</h4>
         <div class="social-links">
@@ -394,8 +438,29 @@
         <address>Av. das Palmeiras, 1234<br/>Centro — São Paulo, SP<br/>(11) 9 8765-4321</address>
       </div>
     </div>
-    <div class="footer-bottom"><p>&copy; 2024 Sorriso Perfeito. Todos os direitos reservados.</p></div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 Sorriso Perfeito. Todos os direitos reservados.</p>
+    </div>
   </footer>
+
+  <!-- WhatsApp Flutuante -->
+  <a href="https://wa.me/5511987654321?text=Olá!%20Gostaria%20de%20agendar%20uma%20consulta%20no%20Sorriso%20Perfeito."
+     class="whatsapp-float"
+     target="_blank"
+     rel="noopener noreferrer"
+     aria-label="Falar no WhatsApp">
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+    </svg>
+    <span class="whatsapp-tooltip">Falar no WhatsApp</span>
+  </a>
+
+  <!-- Voltar ao Topo -->
+  <button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
 
   <script src="scripts/script.js"></script>
 </body>
