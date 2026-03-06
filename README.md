@@ -180,3 +180,4 @@ const OPENWEATHER_KEY = 'SUA_CHAVE_AQUI';
 ✅ Banner de instalação do app
 ✅ Responsivo em 4 breakpoints
 ✅ README completo e atualizado
+```
